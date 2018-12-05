@@ -1,8 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app='ShoppingListApp'>
   <head>
     <title>Shopping List Check Off</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
     <link rel="stylesheet" href="styles/bootstrap.min.css">
     <style>
       .emptyMessage {
@@ -29,22 +31,21 @@
   <div class="row">
 
     <!-- To Buy List -->
-    <div class="col-md-6">
+    <div class="col-md-6"  ng-controller='ToBuyShoppingListController as showList'>
      <h2>To Buy:</h2>
      <ul>
-       <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-       <li>Buy 10 cookies <button class="btn btn-default"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
-     </ul>
-     <div class="emptyMessage">Everything is bought!</div>
+       <li ng-repeat="item in showList.items">Buy {{item.quantity}} {{item.name}} <button class="btn btn-default" ng-click="showList.removeItem($index);"><span class="glyphicon glyphicon-ok"></span> Bought</button></li>
+      </ul>
+     <div class="emptyMessage" ng-show="showList.errorBuyMessage">{{showList.errorBuyMessage}}</div>
     </div>
 
     <!-- Already Bought List -->
-    <div class="col-md-6">
+    <div class="col-md-6" ng-controller="BoughtShoppingListController as showMovedList">
      <h2>Already Bought:</h2>
      <ul>
-       <li>Bought 10 cookies</li>
+       <li ng-repeat="item in showMovedList.items">Bought {{item.quantity}} {{item.name}}</li>
      </ul>
-     <div class="emptyMessage">Nothing bought yet.</div>
+     <div class="emptyMessage" ng-hide="showMovedList.items.length">{{showMovedList.errorBoughtMessage}}</div>
     </div>
   </div>
 </div>
